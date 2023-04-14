@@ -2062,6 +2062,7 @@ fun listPriceLinesWithTitlesSeriesLineData(): MutableList<SeriesData> {
 @Suppress("LongMethod")
 var coinListts : ArrayList<SeriesData> = ArrayList()
 fun listRealTimeEmulationSeriesCandlestickData(): MutableList<SeriesData> {
+    if (!coinListts.isNullOrEmpty()) coinListts.clear()
         for (i in 0 until cointListt.size){
             coinListts.add(CandlestickData(Time.Utc(cointListt[i].time),cointListt[i].open.toFloat(), cointListt[i].high.toFloat(), cointListt[i].low.toFloat(),
                 cointListt[i].close.toFloat()))
