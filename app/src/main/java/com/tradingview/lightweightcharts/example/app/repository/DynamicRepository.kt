@@ -2,11 +2,9 @@ package com.tradingview.lightweightcharts.example.app.repository
 
 import android.util.Log
 import com.tradingview.lightweightcharts.api.series.common.SeriesData
-import com.tradingview.lightweightcharts.api.series.models.CandleChartData
-import com.tradingview.lightweightcharts.api.series.models.OhlcData
-import com.tradingview.lightweightcharts.api.series.models.OhlcDataDynamic
-import com.tradingview.lightweightcharts.api.series.models.Time
+import com.tradingview.lightweightcharts.api.series.models.*
 import com.tradingview.lightweightcharts.example.app.model.Data
+import com.tradingview.lightweightcharts.example.app.view.charts.FloatingTooltipFragment.Companion.tempCoinListLine
 import com.tradingview.lightweightcharts.example.app.view.charts.RealTimeEmulationFragment.Companion.tempCoinList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -108,28 +106,89 @@ class DynamicRepository {
 //                    if (++ticksInCurrentBar == 5) {
 
 
-                        date.time = date.time + 86000L * 1000L
-                        currentIndex++;
-                        ticksInCurrentBar = 0
-                        if (currentIndex == 5000) {
-                            onEmulationComplete.invoke()
-                            return@flow
-                        }
+                    date.time = date.time + 86000L * 1000L
+                    currentIndex++;
+                    ticksInCurrentBar = 0
+                    if (currentIndex == 5000) {
+                        onEmulationComplete.invoke()
+                        return@flow
+                    }
 
-                        if (currentIndex == targetIndex) {
-                            // change trend
-                            lastClose = noisedPrice
-                            lastIndex = currentIndex
-                            targetIndex = (lastIndex + 5 + (Math.random() + 30).roundToInt())
-                            targetPrice = getRandomPrice();
-                        }
+                    if (currentIndex == targetIndex) {
+                        // change trend
+                        lastClose = noisedPrice
+                        lastIndex = currentIndex
+                        targetIndex = (lastIndex + 5 + (Math.random() + 30).roundToInt())
+                        targetPrice = getRandomPrice();
+                    }
 //                    }
                 }
             }
         }
     }
 
-    private fun getRandomPrice(): Int {
+    fun getLineChartListSeriesData(data: Data, onEmulationComplete: () -> Unit): Flow<SeriesData> {
+        val lastData = data.list.last() as LineData
+        var lastClose = lastData.value
+        var lastIndex = data.list.size - 2
+
+        var targetIndex = lastIndex + 105 + (Math.random() + 30).roundToInt()
+        var targetPrice = getRandomPrice()
+
+        var currentIndex = lastIndex + 1
+        var ticksInCurrentBar = 0;
+
+        return flow {
+            val date = Date()
+            while (true) {
+                var currentCandlestickData: LineData
+
+                delay(1500)
+
+                if (!tempCoinListLine.isEmpty()) {
+                    val deltaY = targetPrice - lastClose
+                    val deltaX = targetIndex - lastIndex
+                    val angle = deltaY / deltaX
+                    val basePrice = lastClose + (currentIndex - lastIndex) * angle
+                    val noise = (0.1f - Math.random().toFloat() * 0.2f) + 1.0f
+                    val noisedPrice: Float = basePrice * noise
+
+
+                    if (ticksInCurrentBar == 0) {
+                        currentCandlestickData = LineData(
+                            time = Time.Utc(tempCoinListLine.get(tempCoinListLine.size - 1).time),
+                            value = tempCoinListLine.get(tempCoinListLine.size - 1).close.toFloat()
+                        )
+                    } else {
+                        currentCandlestickData = LineData(
+                            time = Time.Utc(tempCoinListLine.get(tempCoinListLine.size - 1).time),
+                            value = tempCoinListLine.get(tempCoinListLine.size - 1).close.toFloat()
+                        )
+                    }
+
+                    emit(currentCandlestickData)
+
+                    date.time = date.time + 86000L * 1000L
+                    currentIndex++;
+                    ticksInCurrentBar = 0
+                    if (currentIndex == 5000) {
+                        onEmulationComplete.invoke()
+                        return@flow
+                    }
+
+                    if (currentIndex == targetIndex) {
+                        // change trend
+                        lastClose = noisedPrice
+                        lastIndex = currentIndex
+                        targetIndex = (lastIndex + 5 + (Math.random() + 30).roundToInt())
+                        targetPrice = getRandomPrice();
+                    }
+                }
+            }
+        }
+    }
+
+    fun getRandomPrice(): Int {
         return 10 + (Math.random() * 1000).roundToInt() / 100
     }
 }
