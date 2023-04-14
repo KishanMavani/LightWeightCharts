@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single" >
+        <item android:title="Series">
+            <menu>
+                <item
+                    android:id="@+id/menu_bar_chart"
+                    android:title="Bar chart"/>
+                <item
+                    android:id="@+id/menu_custom_price_formatter"
+                    android:title="Custom price formatter"/>
+                <item
+                    android:id="@+id/menu_custom_themes"
+                    android:title="Custom themes"/>
+                <item
+                    android:id="@+id/menu_floating_tooltip"
+                    android:title="Floating tooltip"/>
+                <item
+                    android:id="@+id/menu_volume_study"
+                    android:title="Volume study"/>
+                <item
+                    android:id="@+id/menu_real_time_emulation"
+                    android:title="Realtime emulation"/>
+                <item
+                    android:id="@+id/menu_series_markers"
+                    android:title="Series markers"/>
+                <item
+                    android:id="@+id/menu_price_lines_with_titles"
+                    android:title="Price lines with titles"/>
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Pages">
+            <item
+                android:id="@+id/menu_view_pager"
+                android:title="Open ViewPager"/>
+        </item>
+    </group>
+</menu>

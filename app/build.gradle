@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    compileSdkVersion 33
+    buildToolsVersion "31.0.0"
+    defaultConfig {
+        applicationId "com.tradingview.lightweightcharts.example"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.tradingview:lightweightcharts:3.8.0'
+    implementation project(":lightweightlibrary")
+
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    implementation 'com.github.permissions-dispatcher:permissionsdispatcher:4.8.0'
+    kapt 'com.github.permissions-dispatcher:permissionsdispatcher-processor:4.8.0'
+
+
+    // For Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    // For RxJava2
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.20"
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
+    // Web Socket
+    implementation ('io.socket:socket.io-client:2.1.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.0'
+    implementation 'com.drakeet.multitype:multitype:4.3.0'
+
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+
+}

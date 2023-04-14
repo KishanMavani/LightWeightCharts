@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/static_data"
+        android:title="Static data"/>
+    <item
+        android:id="@+id/real_time_data"
+        android:title="Real-time data"/>
+    <item
+        android:id="@+id/clear_series"
+        android:title="Clear series"/>
+</menu>

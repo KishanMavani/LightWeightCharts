@@ -1,0 +1,41 @@
+buildscript {
+    ext.kotlin_version = '1.6.0'
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
+    }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.18.1"
+}
+
+detekt {
+    source = files(".")
+    buildUponDefaultConfig = false
+    config = files("$projectDir/default-detekt-config.yml")
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task detektSource {
+    detekt
+}
